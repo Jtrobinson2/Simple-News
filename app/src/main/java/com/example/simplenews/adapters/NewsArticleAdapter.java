@@ -54,7 +54,10 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
         Article currentArticle = newsArticles.get(position);
 
         holder.newsHeadline.setText(currentArticle.getTitle());
-        Glide.with(context).load(currentArticle.getUrlToImage()).into(holder.newsImage);
+        Glide.with(context)
+                .load(currentArticle.getUrlToImage())
+                .placeholder(R.drawable.ic_launcher_foreground)
+                .into(holder.newsImage);
         holder.newsContent.setText(currentArticle.getContent());
 //        holder.publishedTime.setText(UTCtoLocalDateConverter(currentArticle.getPublishedAt()));
 

@@ -2,28 +2,40 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_item_parent_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/list_item_parent_layout">
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginBottom="16dp">
 
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:elevation="16dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/cardview_light_background"
+        app:cardCornerRadius="8dp"
         app:layout_constraintStart_toStartOf="parent"
+
         app:layout_constraintTop_toTopOf="parent">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardView_nested_constraint_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/cardView_nested_constraint_layout">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/news_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="170dp"
+                android:scaleType="fitXY"
                 app:layout_constraintBottom_toTopOf="@id/news_headline_textView"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
             </ImageView>
@@ -32,14 +44,16 @@
                 android:id="@+id/news_headline_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="4dp"
-                android:ellipsize="end"
-                android:gravity="center_horizontal"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:maxLines="3"
+
+                android:gravity="left"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/news_image_view"
                 tools:text="News Headline"></TextView>
 
@@ -50,6 +64,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="4dp"
                 android:ellipsize="end"
+                android:maxLines="4"
                 android:gravity="left"
                 android:textSize="@dimen/text_size_medium"
                 app:layout_constraintTop_toBottomOf="@+id/news_headline_textView"
