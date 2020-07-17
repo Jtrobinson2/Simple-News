@@ -9,12 +9,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 * resources.
 * */
 public class RetrofitClient {
-    private static Retrofit retrofit = null;
 
-    public static Retrofit getClient(String baseUrl) {
+    public static String BASE_URL = "https://newsapi.org/v2/";
+    private static Retrofit retrofit;
+
+    public static Retrofit getRetrofitInstance() {
         if(retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(baseUrl)
+                    .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

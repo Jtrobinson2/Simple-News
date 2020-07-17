@@ -1,6 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/list_item_parent_layout">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cardView_nested_constraint_layout">
+
+            <ImageView
+                android:id="@+id/news_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                app:layout_constraintBottom_toTopOf="@id/news_headline_textView"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </ImageView>
+            <!--TODO (1) Change text colors when you get color pallet from generator-->
+            <TextView
+                android:id="@+id/news_headline_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:textAllCaps="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_large"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/news_image_view"
+                tools:text="News Headline"></TextView>
+
+            <TextView
+                android:id="@+id/news_content_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:gravity="left"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintTop_toBottomOf="@+id/news_headline_textView"
+                tools:layout_editor_absoluteX="87dp"
+                tools:text="Example news content"></TextView>
+
+            <TextView
+                android:id="@+id/published_time_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="4dp"
+                android:gravity="left"
+                android:textSize="@dimen/text_size_small"
+                app:layout_constraintTop_toBottomOf="@+id/news_content_textView"
+
+                tools:text="Published Time"></TextView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="16dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
