@@ -70,10 +70,9 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
-
         TextView newsHeadline;
         TextView newsContent;
-        //        TextView publishedTime;
+        //       TextView publishedTime;
         ImageView newsImage;
         ConstraintLayout parentLayout;
 
@@ -86,6 +85,8 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
             parentLayout = itemView.findViewById(R.id.list_item_parent_layout);
 
         }
+
+
     }
 
 
