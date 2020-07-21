@@ -10,6 +10,7 @@
     <!--    Page title text is to be used for the titles of activities (the toolbar text)-->
     <style name="PageTitleText">
         <item name="android:textSize">20sp</item>
+        <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
@@ -25,7 +26,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="ListItemText_andImporantText">
+    <style name="ListItemTitleText_andImporantText">
     <!--Size only specified because colors may vary        -->
         <item name="android:textSize">16sp</item>
     </style>
