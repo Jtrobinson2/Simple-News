@@ -40,19 +40,23 @@
 
             </ImageView>
             <!--TODO (1) Change text colors when you get color pallet from generator-->
+
             <TextView
                 android:id="@+id/news_headline_textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_width="346dp"
+                android:layout_height="30dp"
                 android:layout_marginTop="8dp"
-                android:maxLines="3"
-
                 android:gravity="left"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+
+                android:maxLines="3"
                 android:textAllCaps="true"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.515"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/news_image_view"
                 tools:text="News Headline"></TextView>
@@ -62,10 +66,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_marginTop="4dp"
                 android:ellipsize="end"
-                android:maxLines="4"
                 android:gravity="left"
+                android:maxLines="4"
                 android:textSize="@dimen/text_size_medium"
                 app:layout_constraintTop_toBottomOf="@+id/news_headline_textView"
                 tools:layout_editor_absoluteX="87dp"
@@ -76,7 +81,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginBottom="16dp"
                 android:gravity="left"
                 android:textSize="@dimen/text_size_small"
                 app:layout_constraintTop_toBottomOf="@+id/news_content_textView"

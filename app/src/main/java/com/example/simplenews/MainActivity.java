@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Article> newsArticles;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +56,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Example> call, Response<Example> response) {
                 if (response.isSuccessful()) {
-                        newsArticles = (ArrayList<Article>) response.body().getArticles();
-                        refreshAdapterWithNewsArticles(newsArticles);
-                }
-                else {
+                    newsArticles = (ArrayList<Article>) response.body().getArticles();
+                    refreshAdapterWithNewsArticles(newsArticles);
+                } else {
                     Log.d("MainActivity", "Error in on Response " + String.valueOf(response.code()));
                 }
             }
@@ -72,11 +70,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
     }
     /*
-    *Method used to generate list of data using recyclerView with costom adapter
-    *  */
+     *Method used to generate list of data using recyclerView with costom adapter
+     *  */
 
     private void refreshAdapterWithNewsArticles(List<Article> body) {
         newsAdapter = null;

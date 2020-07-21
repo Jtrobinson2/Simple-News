@@ -73,7 +73,7 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
 
         TextView newsHeadline;
         TextView newsContent;
-//        TextView publishedTime;
+        //        TextView publishedTime;
         ImageView newsImage;
         ConstraintLayout parentLayout;
 
@@ -87,26 +87,6 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
 
         }
     }
-/*
-* Helper method to convert the time string in UTC to a local readable date string
-//* */
-//    private String UTCtoLocalDateConverter(String timeinUTC) {
-//
-//        String dateStr = timeinUTC;
-//        SimpleDateFormat df = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss a", Locale.ENGLISH);
-//        df.setTimeZone(TimeZone.getTimeZone("UTC"));
-//        Date date = null;
-//        try {
-//            date = df.parse(dateStr);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//            Log.d("RecyclerViewAdapter", "Error formatting date");
-//        }
-//        df.setTimeZone(TimeZone.getDefault());
-//        String formattedDate = df.format(date);
-//        return formattedDate;
-//    }
-
 
 
 }
