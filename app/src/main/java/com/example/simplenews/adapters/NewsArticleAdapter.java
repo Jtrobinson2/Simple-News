@@ -19,6 +19,7 @@ import com.example.simplenews.models.Article;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +34,7 @@ import java.util.TimeZone;
  * published time
  * */
 public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.Viewholder> {
-    private ArrayList<Article> newsArticles = new ArrayList<>();
+    private ArrayList<Article> newsArticles;
     private Context context;
 
     public NewsArticleAdapter(List<Article> newsArticles, Context context) {
@@ -59,9 +60,7 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(holder.newsImage);
         holder.newsContent.setText(currentArticle.getContent());
-//        holder.publishedTime.setText(UTCtoLocalDateConverter(currentArticle.getPublishedAt()));
-
-
+        holder.publishedTime.setText(convertUtc2Local(currentArticle.getPublishedAt()));
     }
 
     @Override
@@ -72,7 +71,7 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
     public class Viewholder extends RecyclerView.ViewHolder {
         TextView newsHeadline;
         TextView newsContent;
-        //       TextView publishedTime;
+        TextView publishedTime;
         ImageView newsImage;
         ConstraintLayout parentLayout;
 
@@ -80,7 +79,7 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
             super(itemView);
             newsHeadline = itemView.findViewById(R.id.news_headline_textView);
             newsContent = itemView.findViewById(R.id.news_content_textView);
-//            publishedTime = itemView.findViewById(R.id.published_time_textView);
+            publishedTime = itemView.findViewById(R.id.published_time_textView);
             newsImage = itemView.findViewById(R.id.news_image_view);
             parentLayout = itemView.findViewById(R.id.list_item_parent_layout);
 
@@ -89,5 +88,21 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
 
     }
 
+    /*
+     * Helper method to convert a UTC String to a locale date formatted String
+     * */
+    public static String convertUtc2Local(String utcTime) {
+        String convertedTime = utcTime;
+        String pattern = "MMMM d, yyyy";
+        Locale locale = Locale.getDefault();
+        Date date = new Date();
 
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, locale);
+        convertedTime = simpleDateFormat.format(date);
+        Log.d("NewsArticleAdapter", convertedTime);
+        return convertedTime;
+
+    }
 }
+

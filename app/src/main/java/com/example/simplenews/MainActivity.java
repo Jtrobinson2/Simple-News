@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private NewsAPI NewsAPI;
     private ArrayList<Article> newsArticles;
 
-    /*TODO: setup onClickListener with recyclerview list items to open an item to the article
+    /*
      *  TODO: fix adapter to show articles published time in the cardview
      *   TODO: create pull to refresh feature on topHeadlines RecyclerView
      *   TODO: move the recycleview into a fragment
