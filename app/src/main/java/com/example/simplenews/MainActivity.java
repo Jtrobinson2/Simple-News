@@ -73,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Example> call, Response<Example> response) {
                 if (response.isSuccessful()) {
-                    ArrayList<Article> freshNewsArticles = (ArrayList<Article>) response.body().getArticles();
-                    refreshAdapterWithNewsArticles(freshNewsArticles);
+                    newsArticles = (ArrayList<Article>) response.body().getArticles();
+                    refreshNewsRecyclerView(newsArticles);
                     hideLoadingIndicator();
                 } else {
                     Log.d("MainActivity", "Error in on Response " + String.valueOf(response.code()));
@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onLongItemClick(View view, int position) {
-                        // do whatever
                     }
                 })
         );
@@ -120,12 +119,11 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<Example> call1, Response<Example> response) {
                     if (response.isSuccessful()) {
-                        Log.d("TAG", "Response body " + response.body().getArticles().toString());
                         ArrayList<Article> freshNewsArticles = (ArrayList<Article>) response.body().getArticles();
                         if (freshNewsArticles.equals(newsArticles)) {
                             Toast.makeText(MainActivity.this, "News is up to date", Toast.LENGTH_SHORT).show();
                         } else {
-                            refreshAdapterWithNewsArticles(freshNewsArticles);
+                            refreshNewsRecyclerView(freshNewsArticles);
                             hideLoadingIndicator();
                             Toast.makeText(MainActivity.this, "News Updated", Toast.LENGTH_SHORT).show();
                             swipeRefreshLayout.setRefreshing(false);
@@ -151,12 +149,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     /*
-     *Method used to generate list of data using recyclerView with custom adapter
-     *  */
-    private void refreshAdapterWithNewsArticles(List<Article> body) {
+     * Helper method that refreshes topHeadlinesRecyclerView with new articles
+     * @param: list of new article objects from a network request
+     * */
+    private void refreshNewsRecyclerView(List<Article> freshArticles) {
         newsAdapter.clearNewsArticles();
-        newsAdapter.addAll(body);
+        newsAdapter.addAll(freshArticles);
     }
 
     /*
