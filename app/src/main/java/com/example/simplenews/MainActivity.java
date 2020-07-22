@@ -18,6 +18,7 @@ import com.example.simplenews.models.Example;
 import com.example.simplenews.repositories.NewsAPI;
 import com.example.simplenews.repositories.RetrofitClient;
 import com.google.gson.Gson;
+import com.victor.loading.rotate.RotateLoading;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private NewsArticleAdapter newsAdapter;
     private NewsAPI NewsAPI;
     private ArrayList<Article> newsArticles;
+    private RotateLoading rotateLoadingIndicator;
 
     /*
      *  TODO: fix adapter to show articles published time in the cardview
@@ -47,10 +49,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         newsRecyclerView = findViewById(R.id.newsRecyclerView);
+        rotateLoadingIndicator = findViewById(R.id.rotate_loading_indicator);
         newsAdapter = new NewsArticleAdapter(new ArrayList<Article>(), this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         newsRecyclerView.setLayoutManager(layoutManager);
         newsRecyclerView.setAdapter(newsAdapter);
+        showLoadingIndicator();
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -68,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     newsArticles = (ArrayList<Article>) response.body().getArticles();
                     refreshAdapterWithNewsArticles(newsArticles);
+                    hideLoadingIndicator();
                 } else {
                     Log.d("MainActivity", "Error in on Response " + String.valueOf(response.code()));
                 }
@@ -75,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Example> call, Throwable t) {
+                hideLoadingIndicator();
                 Toast.makeText(MainActivity.this, "Error retrieving News Articles :(", Toast.LENGTH_SHORT).show();
             }
         });
@@ -109,5 +115,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /*
+    * Helper method to show the loading indicator
+    * */
+    private void showLoadingIndicator() {
+        rotateLoadingIndicator.setVisibility(View.VISIBLE);
+        rotateLoadingIndicator.start();
+    }
+
+    /*
+    * Helper method to hide loading indicator
+    * */
+
+    private void hideLoadingIndicator() {
+        rotateLoadingIndicator.stop();
+        rotateLoadingIndicator.setVisibility(View.GONE);
+    }
 
 }
