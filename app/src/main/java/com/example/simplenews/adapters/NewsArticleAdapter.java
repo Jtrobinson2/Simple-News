@@ -104,5 +104,17 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
         return convertedTime;
 
     }
+
+    // Clean all elements of the recycler
+    public void clearNewsArticles() {
+        newsArticles.clear();
+        notifyDataSetChanged();
+    }
+
+    // Add a list of items -- change to type used
+    public void addAll(List<Article> list) {
+        newsArticles.addAll(list);
+        notifyDataSetChanged();
+    }
 }
 

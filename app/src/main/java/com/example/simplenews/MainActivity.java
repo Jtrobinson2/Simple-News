@@ -3,6 +3,7 @@ package com.example.simplenews;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private NewsAPI NewsAPI;
     private ArrayList<Article> newsArticles;
     private RotateLoading rotateLoadingIndicator;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     /*
      *  TODO: fix adapter to show articles published time in the cardview
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         newsRecyclerView = findViewById(R.id.newsRecyclerView);
         rotateLoadingIndicator = findViewById(R.id.rotate_loading_indicator);
         newsAdapter = new NewsArticleAdapter(new ArrayList<Article>(), this);
@@ -70,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Example> call, Response<Example> response) {
                 if (response.isSuccessful()) {
-                    newsArticles = (ArrayList<Article>) response.body().getArticles();
-                    refreshAdapterWithNewsArticles(newsArticles);
+                    ArrayList<Article> freshNewsArticles = (ArrayList<Article>) response.body().getArticles();
+                    refreshAdapterWithNewsArticles(freshNewsArticles);
                     hideLoadingIndicator();
                 } else {
                     Log.d("MainActivity", "Error in on Response " + String.valueOf(response.code()));
@@ -103,30 +106,70 @@ public class MainActivity extends AppCompatActivity {
                 })
         );
 
+        // Configure the refreshing colors
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
+        /*
+         * TODO: note that refreshing really doesn't change anything, because the datasource most likely isn't changing while the user
+         *  is in the app. I have yet to see the recyclerview contents actually change when using pull to refresh
+         *  yet when comparing the Arraylist response to the existing adapters data they aren't the same
+         * */
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            Call<Example> call1 = NewsAPI.getRootJSONObject();
+
+            call1.enqueue(new Callback<Example>() {
+                @Override
+                public void onResponse(Call<Example> call1, Response<Example> response) {
+                    if (response.isSuccessful()) {
+                        Log.d("TAG", "Response body " + response.body().getArticles().toString());
+                        ArrayList<Article> freshNewsArticles = (ArrayList<Article>) response.body().getArticles();
+                        if (freshNewsArticles.equals(newsArticles)) {
+                            Toast.makeText(MainActivity.this, "News is up to date", Toast.LENGTH_SHORT).show();
+                        } else {
+                            refreshAdapterWithNewsArticles(freshNewsArticles);
+                            hideLoadingIndicator();
+                            Toast.makeText(MainActivity.this, "News Updated", Toast.LENGTH_SHORT).show();
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+
+                    } else {
+                        swipeRefreshLayout.setRefreshing(false);
+                        hideLoadingIndicator();
+                        Toast.makeText(MainActivity.this, "Error retrieving News Articles  :/", Toast.LENGTH_SHORT).show();
+                        Log.d("MainActivity", "Error in on Response " + String.valueOf(response.code()));
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Example> call1, Throwable t) {
+                    hideLoadingIndicator();
+                    Toast.makeText(MainActivity.this, "Error retrieving News Articles :(", Toast.LENGTH_SHORT).show();
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
+        });
+
     }
 
     /*
      *Method used to generate list of data using recyclerView with custom adapter
      *  */
     private void refreshAdapterWithNewsArticles(List<Article> body) {
-        newsAdapter = null;
-        newsAdapter = new NewsArticleAdapter(body, this);
-        newsRecyclerView.setAdapter(newsAdapter);
-
+        newsAdapter.clearNewsArticles();
+        newsAdapter.addAll(body);
     }
 
     /*
-    * Helper method to show the loading indicator
-    * */
+     * Helper method to show the loading indicator
+     * */
     private void showLoadingIndicator() {
         rotateLoadingIndicator.setVisibility(View.VISIBLE);
         rotateLoadingIndicator.start();
     }
 
     /*
-    * Helper method to hide loading indicator
-    * */
-
+     * Helper method to hide loading indicator
+     * */
     private void hideLoadingIndicator() {
         rotateLoadingIndicator.stop();
         rotateLoadingIndicator.setVisibility(View.GONE);

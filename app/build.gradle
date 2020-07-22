@@ -65,4 +65,7 @@ dependencies {
 //    Loading indicator
     implementation 'com.victor:lib:1.0.4'
 
+//    SwipeRefreshLayout
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
 }
