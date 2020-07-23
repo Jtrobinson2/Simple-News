@@ -95,6 +95,7 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
         String convertedTime = utcTime;
         String pattern = "MMMM d, yyyy";
         Locale locale = Locale.getDefault();
+        /*TODO Fix this it just shows todays date not the actual date string*/
         Date date = new Date();
 
 

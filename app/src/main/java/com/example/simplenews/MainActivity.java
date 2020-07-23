@@ -1,6 +1,9 @@
 package com.example.simplenews;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -18,6 +21,7 @@ import com.example.simplenews.models.Article;
 import com.example.simplenews.models.Example;
 import com.example.simplenews.repositories.NewsAPI;
 import com.example.simplenews.repositories.RetrofitClient;
+import com.example.simplenews.viewmodels.NewsViewModel;
 import com.google.gson.Gson;
 import com.victor.loading.rotate.RotateLoading;
 
@@ -34,9 +38,10 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView newsRecyclerView;
     private NewsArticleAdapter newsAdapter;
     private NewsAPI NewsAPI;
-    private ArrayList<Article> newsArticles;
+    private ArrayList<Article> newsArticles = new ArrayList<>();
     private RotateLoading rotateLoadingIndicator;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private NewsViewModel newsViewModel;
 
     /*
      *  TODO: fix adapter to show articles published time in the cardview
@@ -53,40 +58,20 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         newsRecyclerView = findViewById(R.id.newsRecyclerView);
         rotateLoadingIndicator = findViewById(R.id.rotate_loading_indicator);
-        newsAdapter = new NewsArticleAdapter(new ArrayList<Article>(), this);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        newsRecyclerView.setLayoutManager(layoutManager);
-        newsRecyclerView.setAdapter(newsAdapter);
-        showLoadingIndicator();
 
+//        Getting and setting up the viewmodel
+        newsViewModel = new ViewModelProvider(this).get(NewsViewModel.class);
+        newsViewModel.initNewsViewModel();
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(RetrofitClient.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        NewsAPI = retrofit.create(NewsAPI.class);
-
-        Call<Example> call = NewsAPI.getRootJSONObject();
-
-        call.enqueue(new Callback<Example>() {
-            @Override
-            public void onResponse(Call<Example> call, Response<Example> response) {
-                if (response.isSuccessful()) {
-                    newsArticles = (ArrayList<Article>) response.body().getArticles();
-                    refreshNewsRecyclerView(newsArticles);
-                    hideLoadingIndicator();
-                } else {
-                    Log.d("MainActivity", "Error in on Response " + String.valueOf(response.code()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Example> call, Throwable t) {
-                hideLoadingIndicator();
-                Toast.makeText(MainActivity.this, "Error retrieving News Articles :(", Toast.LENGTH_SHORT).show();
-            }
+//        Setting up the observer
+        newsViewModel.getNewsRepository().observe(this, newsResponse -> {
+            ArrayList<Article> freshNewsArticles = (ArrayList<Article>) newsResponse.getArticles();
+            newsArticles.addAll(freshNewsArticles);
+            newsAdapter.notifyDataSetChanged();
         });
+
+        initReyclerView();
+
 
 //        This is not the way to do recyclerview click listeners but this will suffice for now
         newsRecyclerView.addOnItemTouchListener(
@@ -113,38 +98,8 @@ public class MainActivity extends AppCompatActivity {
          *  yet when comparing the Arraylist response to the existing adapters data they aren't the same
          * */
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            Call<Example> call1 = NewsAPI.getRootJSONObject();
 
-            call1.enqueue(new Callback<Example>() {
-                @Override
-                public void onResponse(Call<Example> call1, Response<Example> response) {
-                    if (response.isSuccessful()) {
-                        ArrayList<Article> freshNewsArticles = (ArrayList<Article>) response.body().getArticles();
-                        if (freshNewsArticles.equals(newsArticles)) {
-                            Toast.makeText(MainActivity.this, "News is up to date", Toast.LENGTH_SHORT).show();
-                        } else {
-                            refreshNewsRecyclerView(freshNewsArticles);
-                            hideLoadingIndicator();
-                            Toast.makeText(MainActivity.this, "News Updated", Toast.LENGTH_SHORT).show();
-                            swipeRefreshLayout.setRefreshing(false);
-                        }
 
-                    } else {
-                        swipeRefreshLayout.setRefreshing(false);
-                        hideLoadingIndicator();
-                        Toast.makeText(MainActivity.this, "Error retrieving News Articles  :/", Toast.LENGTH_SHORT).show();
-                        Log.d("MainActivity", "Error in on Response " + String.valueOf(response.code()));
-
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Example> call1, Throwable t) {
-                    hideLoadingIndicator();
-                    Toast.makeText(MainActivity.this, "Error retrieving News Articles :(", Toast.LENGTH_SHORT).show();
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-            });
         });
 
     }
@@ -173,6 +128,21 @@ public class MainActivity extends AppCompatActivity {
     private void hideLoadingIndicator() {
         rotateLoadingIndicator.stop();
         rotateLoadingIndicator.setVisibility(View.GONE);
+    }
+
+    /*
+     * Helper method to setup the recyclerView
+     * */
+    private void initReyclerView() {
+        if (newsAdapter == null) {
+            newsAdapter = new NewsArticleAdapter(newsArticles, this);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+            newsRecyclerView.setLayoutManager(layoutManager);
+            newsRecyclerView.setAdapter(newsAdapter);
+        } else {
+            newsAdapter.notifyDataSetChanged();
+        }
+
     }
 
 }
