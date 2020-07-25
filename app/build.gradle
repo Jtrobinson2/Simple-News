@@ -69,4 +69,7 @@ dependencies {
 //    SwipeRefreshLayout
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
+//    Timber for logging
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
 }

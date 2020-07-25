@@ -1,7 +1,7 @@
 package com.example.simplenews.models;
 
 /*
- * News class objects contain the data fetched from the news api. This is the base data model
+ * News class objects contain the article data fetched from the news api. This is the base data model
  * */
 
 import com.google.gson.annotations.Expose;

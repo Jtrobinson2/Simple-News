@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import timber.log.Timber;
+
 /*name (news source)
  * title (headline)
  * description (content)
@@ -101,7 +103,6 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, locale);
         convertedTime = simpleDateFormat.format(date);
-        Log.d("NewsArticleAdapter", convertedTime);
         return convertedTime;
 
     }

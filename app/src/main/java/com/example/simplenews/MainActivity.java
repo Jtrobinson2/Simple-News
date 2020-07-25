@@ -1,9 +1,7 @@
 package com.example.simplenews;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -11,63 +9,57 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.simplenews.adapters.NewsArticleAdapter;
 import com.example.simplenews.adapters.RecyclerItemClickListener;
 import com.example.simplenews.models.Article;
-import com.example.simplenews.models.Example;
-import com.example.simplenews.repositories.NewsAPI;
-import com.example.simplenews.repositories.RetrofitClient;
-import com.example.simplenews.viewmodels.NewsViewModel;
-import com.google.gson.Gson;
+import com.example.simplenews.viewmodels.MainActivityViewModel;
 import com.victor.loading.rotate.RotateLoading;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView newsRecyclerView;
     private NewsArticleAdapter newsAdapter;
-    private NewsAPI NewsAPI;
     private ArrayList<Article> newsArticles = new ArrayList<>();
     private RotateLoading rotateLoadingIndicator;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private NewsViewModel newsViewModel;
+    private MainActivityViewModel newsViewModel;
 
     /*
      *  TODO: fix adapter to show articles published time in the cardview
-     *   TODO: create pull to refresh feature on topHeadlines RecyclerView
+     *
      *   TODO: move the recycleview into a fragment
-     *    TODO: Move netowrking code to repository
-     *     TODO: setup live data, viewmodels, observable pattern*/
+     *
+     *     */
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        Planting timber debug tree here because this joint refuses to work when planted in the application class
+        Timber.plant(new Timber.DebugTree());
+
 
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         newsRecyclerView = findViewById(R.id.newsRecyclerView);
         rotateLoadingIndicator = findViewById(R.id.rotate_loading_indicator);
 
 //        Getting and setting up the viewmodel
-        newsViewModel = new ViewModelProvider(this).get(NewsViewModel.class);
+        newsViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         newsViewModel.initNewsViewModel();
 
-//        Setting up the observer
-        newsViewModel.getNewsRepository().observe(this, newsResponse -> {
+//        Setting up the observer for the top headlines live data
+        newsViewModel.getNewsResponseMutableLiveData().observe(this, newsResponse -> {
             ArrayList<Article> freshNewsArticles = (ArrayList<Article>) newsResponse.getArticles();
-            newsArticles.addAll(freshNewsArticles);
-            newsAdapter.notifyDataSetChanged();
+            Timber.d("MainActivityViewModel Mutable Live data changed was observed here it is: " + newsResponse.getArticles().toString());
+            refreshNewsRecyclerView(freshNewsArticles);
         });
 
         initReyclerView();
@@ -92,26 +84,38 @@ public class MainActivity extends AppCompatActivity {
 
         // Configure the refreshing colors
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
-        /*
-         * TODO: note that refreshing really doesn't change anything, because the datasource most likely isn't changing while the user
-         *  is in the app. I have yet to see the recyclerview contents actually change when using pull to refresh
-         *  yet when comparing the Arraylist response to the existing adapters data they aren't the same
-         * */
         swipeRefreshLayout.setOnRefreshListener(() -> {
-
+            newsViewModel.refreshTopHeadlines();
+            newsRecyclerView.setVisibility(View.INVISIBLE);
+            showLoadingIndicator();
+            swipeRefreshLayout.setRefreshing(false);
+            hideLoadingIndicator();
+            newsRecyclerView.setVisibility(View.VISIBLE);
+            /*
+             * This toast is here because my news api plan won't show realtime news, it only
+             * shows new news headlines every hour. The Majority of the use cases won't have
+             * users waiting in the app for an hour for new news headlines
+             * therefore this toast is acceptable because 99% of the time when they pull to refresh
+             * the news will be the same news.
+             * */
+            Toast.makeText(MainActivity.this, "News already up-to-date", Toast.LENGTH_SHORT).show();
 
         });
-
     }
-
 
     /*
      * Helper method that refreshes topHeadlinesRecyclerView with new articles
      * @param: list of new article objects from a network request
      * */
     private void refreshNewsRecyclerView(List<Article> freshArticles) {
+        Timber.d("refreshRecyclerView was called");
+        newsRecyclerView.setVisibility(View.INVISIBLE);
+        showLoadingIndicator();
         newsAdapter.clearNewsArticles();
         newsAdapter.addAll(freshArticles);
+        hideLoadingIndicator();
+        newsRecyclerView.setVisibility(View.VISIBLE);
+        newsAdapter.notifyDataSetChanged();
     }
 
     /*
@@ -135,10 +139,12 @@ public class MainActivity extends AppCompatActivity {
      * */
     private void initReyclerView() {
         if (newsAdapter == null) {
+            showLoadingIndicator();
             newsAdapter = new NewsArticleAdapter(newsArticles, this);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
             newsRecyclerView.setLayoutManager(layoutManager);
             newsRecyclerView.setAdapter(newsAdapter);
+            hideLoadingIndicator();
         } else {
             newsAdapter.notifyDataSetChanged();
         }

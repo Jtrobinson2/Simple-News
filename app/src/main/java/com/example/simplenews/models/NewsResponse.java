@@ -5,7 +5,10 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Example {
+/*
+* This is a POJO represntation of the base JSON object from the NEWS api response
+* */
+public class NewsResponse {
 
     @SerializedName("status")
     @Expose
