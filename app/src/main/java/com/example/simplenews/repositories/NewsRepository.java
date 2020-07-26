@@ -21,6 +21,13 @@ import timber.log.Timber;
 public class NewsRepository {
     private static NewsRepository newsRepository;
     private NewsAPI newsAPI;
+    private static final String SCIENCE_CATEGORY_QUERY_PARAM = "science";
+    private static final String BUSINESS_CATEGORY_QUERY_PARAM = "business";
+    private static final String HEALTH_CATEGORY_QUERY_PARAM = "health";
+    private static final String SPORTS_CATEGORY_QUERY_PARAM = "sports";
+    private static final String TECHNOLOGY_CATEGORY_QUERY_PARAM = "technology";
+    private static final String ENTERTAINMENT_CATEGORY_QUERY_PARAM = "entertainment";
+    private static final String GENERAL_CATEGORY_QUERY_PARAM = "general";
 
 
 
@@ -44,7 +51,7 @@ public class NewsRepository {
 
     public MutableLiveData<NewsResponse> getTopHeadlines() {
         MutableLiveData<NewsResponse> topHeadlines = new MutableLiveData<>();
-        newsAPI.getRootJSONObject().enqueue(new Callback<NewsResponse>() {
+        newsAPI.getTopicSpecificHeadline(GENERAL_CATEGORY_QUERY_PARAM).enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
                 if (response.isSuccessful()) {
