@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
      *     TODO: implement cached news results (ROOM database)
      *      TODO: implement color prefrences and settings screen
      *       TODO: implement proper testing of app
+     *        TODO: loading indicator is now showing fix this
      *
      * */
     private TabLayout tabLayout;
