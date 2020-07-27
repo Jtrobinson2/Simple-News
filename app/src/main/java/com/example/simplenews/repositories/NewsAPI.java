@@ -9,6 +9,7 @@ import retrofit2.http.Query;
 /*
  * This interface contains the methods we are
  * going to use to execute the HTTP request with retrofit2
+ * default page size I'm returning from the NEws api is 100 pages
  * */
 
 public interface NewsAPI {

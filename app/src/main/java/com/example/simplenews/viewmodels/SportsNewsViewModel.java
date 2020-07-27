@@ -8,33 +8,30 @@ import com.example.simplenews.repositories.NewsRepository;
 
 import timber.log.Timber;
 
-public class MainActivityViewModel extends ViewModel {
-
-
-    private MutableLiveData<NewsResponse> newsResponseMutableLiveData;
+public class SportsNewsViewModel extends ViewModel {
+    private MutableLiveData<NewsResponse> sportsNewsResponse;
     private NewsRepository newsRepository;
 
-    //    When a viewmodel object is created fetch the data needed for the activitiy
-    public void initNewsViewModel() {
+    //    When a viewmodel object is created fetch the data needed for the fragment
+    public void initSportsNewsViewModel() {
 //        If the mutable live data is already up to date don't make another request
-        if (newsResponseMutableLiveData != null) {
+        if (sportsNewsResponse != null) {
             return;
         }
         newsRepository = NewsRepository.getInstance();
-        newsResponseMutableLiveData = newsRepository.getTopHeadlines();
+        sportsNewsResponse = newsRepository.getTopicSpecificHeadlines(NewsRepository.SPORTS_CATEGORY_QUERY_PARAM);
 
     }
 
     public void refreshTopHeadlines() {
-        this.newsResponseMutableLiveData = null;
-        newsResponseMutableLiveData = newsRepository.getTopHeadlines();
+        this.sportsNewsResponse = null;
+        sportsNewsResponse = newsRepository.getTopicSpecificHeadlines(NewsRepository.SPORTS_CATEGORY_QUERY_PARAM);
         Timber.d("Refresh top headlines was called successfully");
 
     }
 
     //    Getter method for mutable live data so observers can observe it's changes
-    public MutableLiveData<NewsResponse> getNewsResponseMutableLiveData() {
-        return newsResponseMutableLiveData;
+    public MutableLiveData<NewsResponse> getSportsNewsResponse() {
+        return sportsNewsResponse;
     }
-
 }

@@ -1,37 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_linear_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/parent_constraint_layout"
-    tools:context=".MainActivity">
+    android:orientation="vertical"
+    tools:context=".activities.MainActivity">
 
-
-    <com.victor.loading.rotate.RotateLoading
-        android:id="@+id/rotate_loading_indicator"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        app:layout_constraintBottom_toBottomOf="@+id/parent_constraint_layout"
-        app:layout_constraintEnd_toEndOf="@+id/parent_constraint_layout"
-        app:layout_constraintStart_toStartOf="@+id/parent_constraint_layout"
-        app:layout_constraintTop_toTopOf="@+id/parent_constraint_layout"
-        app:loading_color="@color/colorPrimary"
-        app:loading_width="5dp" />
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_layout"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        app:tabMode="scrollable"
+        android:background="@color/colorPrimary"
+        app:tabRippleColor="@color/white"
+        app:tabTextColor="@color/white"
+        app:tabIndicatorColor="@color/colorAccent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"/>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/news_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/newsRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

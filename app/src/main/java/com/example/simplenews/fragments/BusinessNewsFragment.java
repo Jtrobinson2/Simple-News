@@ -1,21 +1,28 @@
-package com.example.simplenews;
+package com.example.simplenews.fragments;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.simplenews.R;
 import com.example.simplenews.adapters.NewsArticleAdapter;
 import com.example.simplenews.adapters.RecyclerItemClickListener;
 import com.example.simplenews.models.Article;
-import com.example.simplenews.viewmodels.MainActivityViewModel;
+import com.example.simplenews.viewmodels.BusinessNewsViewModel;
 import com.victor.loading.rotate.RotateLoading;
 
 import java.util.ArrayList;
@@ -23,42 +30,44 @@ import java.util.List;
 
 import timber.log.Timber;
 
-public class MainActivity extends AppCompatActivity {
+public class BusinessNewsFragment extends Fragment {
+
+    private BusinessNewsViewModel businessNewsViewModel;
     private RecyclerView newsRecyclerView;
     private NewsArticleAdapter newsAdapter;
     private ArrayList<Article> newsArticles = new ArrayList<>();
     private RotateLoading rotateLoadingIndicator;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private MainActivityViewModel newsViewModel;
 
-    /*
-     *  TODO: fix adapter to show articles published time in the cardview
-     *
-     *   TODO: move the recycleview into a fragment
-     *
-     *     */
-
+    public static BusinessNewsFragment newInstance() {
+        return new BusinessNewsFragment();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-//        Planting timber debug tree here because this joint refuses to work when planted in the application class
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.business_news_fragment, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //        Planting timber debug tree here because this joint refuses to work when planted in the application class
         Timber.plant(new Timber.DebugTree());
 
 
-        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
-        newsRecyclerView = findViewById(R.id.newsRecyclerView);
-        rotateLoadingIndicator = findViewById(R.id.rotate_loading_indicator);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
+        newsRecyclerView = view.findViewById(R.id.newsRecyclerView);
+        rotateLoadingIndicator = view.findViewById(R.id.rotate_loading_indicator);
 
 //        Getting and setting up the viewmodel
-        newsViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
-        newsViewModel.initNewsViewModel();
+        businessNewsViewModel = new ViewModelProvider(this).get(BusinessNewsViewModel.class);
+        businessNewsViewModel.initBusinessNewsViewModel();
 
 //        Setting up the observer for the top headlines live data
-        newsViewModel.getNewsResponseMutableLiveData().observe(this, newsResponse -> {
+        businessNewsViewModel.getBusinessNewsResponse().observe(getViewLifecycleOwner(), newsResponse -> {
             ArrayList<Article> freshNewsArticles = (ArrayList<Article>) newsResponse.getArticles();
-            Timber.d("MainActivityViewModel Mutable Live data changed was observed here it is: " + newsResponse.getArticles().toString());
+            Timber.d("BusinessNewsViewModel Mutable Live data changed was observed here it is: " + newsResponse.getArticles().toString());
             refreshNewsRecyclerView(freshNewsArticles);
         });
 
@@ -67,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        This is not the way to do recyclerview click listeners but this will suffice for now
         newsRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(this, newsRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                new RecyclerItemClickListener(getContext(), newsRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         Article article = newsArticles.get(position);
@@ -85,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         // Configure the refreshing colors
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorPrimary));
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            newsViewModel.refreshTopHeadlines();
+            businessNewsViewModel.refreshTopHeadlines();
             newsRecyclerView.setVisibility(View.INVISIBLE);
             showLoadingIndicator();
             swipeRefreshLayout.setRefreshing(false);
@@ -98,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
              * therefore this toast is acceptable because 99% of the time when they pull to refresh
              * the news will be the same news.
              * */
-            Toast.makeText(MainActivity.this, "News already up-to-date", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "News already up-to-date", Toast.LENGTH_SHORT).show();
 
         });
     }
@@ -140,8 +149,8 @@ public class MainActivity extends AppCompatActivity {
     private void initReyclerView() {
         if (newsAdapter == null) {
             showLoadingIndicator();
-            newsAdapter = new NewsArticleAdapter(newsArticles, this);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+            newsAdapter = new NewsArticleAdapter(newsArticles, getContext());
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
             newsRecyclerView.setLayoutManager(layoutManager);
             newsRecyclerView.setAdapter(newsAdapter);
             hideLoadingIndicator();
@@ -151,4 +160,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
 }
+
+
