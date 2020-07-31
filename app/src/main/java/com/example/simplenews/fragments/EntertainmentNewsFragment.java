@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.simplenews.R;
+import com.example.simplenews.activities.ArticleWebViewActivity;
 import com.example.simplenews.adapters.NewsArticleAdapter;
 import com.example.simplenews.adapters.RecyclerItemClickListener;
 import com.example.simplenews.models.Article;
@@ -82,8 +83,9 @@ public class EntertainmentNewsFragment extends Fragment {
                     @Override
                     public void onItemClick(View view, int position) {
                         Article article = newsArticles.get(position);
-                        Uri uri = Uri.parse(article.getUrl());
-                        Intent webIntent = new Intent(Intent.ACTION_VIEW, uri);
+                        String url = article.getUrl();
+                        Intent webIntent = new Intent(getContext(), ArticleWebViewActivity.class);
+                        webIntent.putExtra("URL", url);
                         startActivity(webIntent);
                     }
 
