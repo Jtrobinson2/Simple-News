@@ -1,14 +1,12 @@
 package com.example.simplenews.repositories;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.browser.customtabs.CustomTabsIntent.Builder;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.simplenews.R;
 import com.example.simplenews.models.Article;
 import com.example.simplenews.models.NewsResponse;
 

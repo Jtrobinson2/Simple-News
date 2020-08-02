@@ -1,5 +1,6 @@
 package com.example.simplenews.fragments;
 
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -81,7 +82,7 @@ public class GeneralNewsFragment extends Fragment {
                     public void onItemClick(View view, int position) {
                         Article article = newsArticles.get(position);
                         String url = article.getUrl();
-                        NewsRepository.openCustomChromeTab(getContext(), url, R.color.colorPrimary);
+                        NewsRepository.openCustomChromeTab(getContext(), url, ContextCompat.getColor(getActivity(), R.color.colorPrimary));
                     }
 
                     @Override
