@@ -74,4 +74,6 @@ dependencies {
 //    Timber for logging
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
+//    Chrome custom tabs
+    implementation "androidx.browser:browser:1.2.0"
 }

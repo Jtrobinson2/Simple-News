@@ -1,10 +1,8 @@
 package com.example.simplenews.fragments;
 
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,11 +18,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.simplenews.R;
-import com.example.simplenews.activities.ArticleWebViewActivity;
 import com.example.simplenews.adapters.NewsArticleAdapter;
 import com.example.simplenews.adapters.RecyclerItemClickListener;
 import com.example.simplenews.models.Article;
-import com.example.simplenews.viewmodels.HealthNewsViewModel;
+import com.example.simplenews.repositories.NewsRepository;
 import com.example.simplenews.viewmodels.ScienceNewsViewModel;
 import com.victor.loading.rotate.RotateLoading;
 
@@ -85,9 +82,7 @@ public class ScienceNewsFragment extends Fragment {
                     public void onItemClick(View view, int position) {
                         Article article = newsArticles.get(position);
                         String url = article.getUrl();
-                        Intent webIntent = new Intent(getContext(), ArticleWebViewActivity.class);
-                        webIntent.putExtra("URL", url);
-                        startActivity(webIntent);
+                        NewsRepository.openCustomChromeTab(getContext(), url, R.color.colorPrimary);
                     }
 
                     @Override

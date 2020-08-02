@@ -49,11 +49,12 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         Article currentArticle = newsArticles.get(position);
 
-        holder.newsHeadline.setText(currentArticle.getTitle());
         Glide.with(context)
                 .load(currentArticle.getUrlToImage())
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(holder.newsImage);
+
+        holder.newsHeadline.setText(currentArticle.getTitle());
         holder.newsContent.setText(currentArticle.getContent());
         holder.publishedTime.setText(convertUtc2Local(currentArticle.getPublishedAt()));
     }
