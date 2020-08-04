@@ -1,12 +1,18 @@
 package com.example.simplenews.repositories;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.browser.customtabs.CustomTabsIntent.Builder;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.simplenews.R;
 import com.example.simplenews.models.Article;
 import com.example.simplenews.models.NewsResponse;
 
@@ -101,7 +107,9 @@ public class NewsRepository {
     public static void openCustomChromeTab(Context context, String url, int color) {
         Builder tabBuilder = new Builder();
         tabBuilder.setToolbarColor(color);
+        Bitmap backButton = BitmapFactory.decodeResource(context.getResources(), R.drawable.baseline_arrow_back_white_24);
         tabBuilder.addDefaultShareMenuItem();
+        tabBuilder.setCloseButtonIcon(backButton);
         CustomTabsIntent customTabsIntent = tabBuilder.build();
         customTabsIntent.launchUrl(context, Uri.parse(url));
     }
