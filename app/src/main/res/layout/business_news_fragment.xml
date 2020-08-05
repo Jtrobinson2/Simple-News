@@ -8,7 +8,7 @@
     tools:context=".fragments.BusinessNewsFragment">
 
     <com.victor.loading.rotate.RotateLoading
-        android:id="@+id/rotate_loading_indicator"
+        android:id="@+id/rotate_loading_indicator_business"
         android:layout_width="80dp"
         android:layout_height="80dp"
         app:layout_constraintBottom_toBottomOf="@+id/parent_constraint_layout"

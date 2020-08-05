@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 /*name (news source)
  * title (headline)
@@ -70,6 +71,7 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
         TextView publishedTime;
         ImageView newsImage;
         ConstraintLayout parentLayout;
+        
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -93,6 +95,7 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
         Locale locale = Locale.getDefault();
         /*TODO Fix this it just shows todays date not the actual date string*/
         Date date = new Date();
+
 
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, locale);

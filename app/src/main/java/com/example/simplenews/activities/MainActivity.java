@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
      *TODO: Fix date not showing date from API response
      * TODO: Make sure there aren't excessive networking calls
      *  TODO: implement a network error handling (show a screen or something)
-     *   TODO: implement in app webview where the user is taken after clickng on an article
      *    TODO: implement share button for articles
      *     TODO: implement cached news results (ROOM database)
      *      TODO: implement color prefrences and settings screen
@@ -31,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
      * */
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
+    private boolean isConnected = false;
     private NewsFragmentStatePagerAdapter viewpagerAdapter;
     private String[] tabTitles = {"General", "Entertainment", "Business", "Health", "Science", "Sports", "Technology"};
 

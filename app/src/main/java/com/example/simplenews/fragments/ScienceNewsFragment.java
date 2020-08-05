@@ -68,9 +68,16 @@ public class ScienceNewsFragment extends Fragment {
 
 //        Setting up the observer for the top headlines live data
         scienceNewsViewModel.getScienceNewsReponse().observe(getViewLifecycleOwner(), newsResponse -> {
-            ArrayList<Article> freshNewsArticles = (ArrayList<Article>) newsResponse.getArticles();
-            Timber.d("Science Mutable Live data changed was observed here it is: " + newsResponse.getArticles().toString());
-            refreshNewsRecyclerView(freshNewsArticles);
+            /*checking to see if there are actually articles from the observed change in data*/
+            if (newsResponse == null) {
+                refreshNewsRecyclerView(new ArrayList<Article>());
+                Timber.d("ScienceNewsViewModel Mutable live data change came back null");
+
+            } else {
+                ArrayList<Article> freshNewsArticles = (ArrayList<Article>) newsResponse.getArticles();
+                Timber.d("ScienceNewsViewModel Mutable Live data changed was observed here it is: " + newsResponse.getArticles().toString());
+                refreshNewsRecyclerView(freshNewsArticles);
+            }
         });
 
         initReyclerView();

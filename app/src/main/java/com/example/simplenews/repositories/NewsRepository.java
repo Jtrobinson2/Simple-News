@@ -103,6 +103,8 @@ public class NewsRepository {
     /*
      * Method for opening customChromeTab
      * @param: articles String url
+     * @param: context to access android resources
+     * @param: int color to change toolbar color
      * */
     public static void openCustomChromeTab(Context context, String url, int color) {
         Builder tabBuilder = new Builder();
