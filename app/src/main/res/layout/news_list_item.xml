@@ -29,6 +29,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <com.victor.loading.rotate.RotateLoading
+                android:id="@+id/rotate_loading_indicator"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:layout_constraintBottom_toBottomOf="@+id/news_image_view"
+                app:layout_constraintEnd_toEndOf="@+id/news_image_view"
+                app:layout_constraintStart_toStartOf="@+id/news_image_view"
+                app:layout_constraintTop_toTopOf="@+id/news_image_view"
+                app:loading_color="@color/colorPrimary"
+                app:loading_speed="15"
+                app:loading_width="5dp" />
+
             <ImageView
                 android:id="@+id/news_image_view"
                 android:layout_width="match_parent"

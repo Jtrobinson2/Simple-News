@@ -13,15 +13,14 @@ import com.example.simplenews.R;
 import com.example.simplenews.adapters.NewsFragmentStatePagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.victor.loading.rotate.RotateLoading;
 
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
     /*
      *TODO: Fix date not showing date from API response
-     * TODO: Make sure there aren't excessive networking calls
      *  TODO: implement a network error handling (show a screen or something)
-     *    TODO: implement share button for articles
      *     TODO: implement cached news results (ROOM database)
      *      TODO: implement color prefrences and settings screen
      *       TODO: implement proper testing of app
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
      * */
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
-    private boolean isConnected = false;
+    RotateLoading rotateLoadingindicator;
     private NewsFragmentStatePagerAdapter viewpagerAdapter;
     private String[] tabTitles = {"General", "Entertainment", "Business", "Health", "Science", "Sports", "Technology"};
 
@@ -52,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
     @Override
     public void onBackPressed() {

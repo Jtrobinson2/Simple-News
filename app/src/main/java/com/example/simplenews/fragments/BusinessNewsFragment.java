@@ -61,7 +61,7 @@ public class BusinessNewsFragment extends Fragment {
 
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         newsRecyclerView = view.findViewById(R.id.newsRecyclerView);
-        rotateLoadingIndicator = view.findViewById(R.id.rotate_loading_indicator_business);
+        rotateLoadingIndicator = view.findViewById(R.id.rotate_loading_indicator);
 
 //        Getting and setting up the viewmodel
         businessNewsViewModel = new ViewModelProvider(this).get(BusinessNewsViewModel.class);

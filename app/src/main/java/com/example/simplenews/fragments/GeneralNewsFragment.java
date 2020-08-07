@@ -67,13 +67,16 @@ public class GeneralNewsFragment extends Fragment {
 
 //        Setting up the observer for the top headlines live data
         generalNewsViewModel.getGeneralNewsResponse().observe(getViewLifecycleOwner(), newsResponse -> {
+            showLoadingIndicator();
             /*checking to see if there are actually articles from the observed change in data*/
             if (newsResponse == null) {
                 refreshNewsRecyclerView(new ArrayList<Article>());
                 Timber.d("General Mutable live data change came back null");
+                hideLoadingIndicator();
             } else {
                 ArrayList<Article> freshNewsArticles = (ArrayList<Article>) newsResponse.getArticles();
                 Timber.d("General Mutable Live data changed was observed here it is: " + newsResponse.getArticles().toString());
+                hideLoadingIndicator();
                 refreshNewsRecyclerView(freshNewsArticles);
             }
 
@@ -138,8 +141,8 @@ public class GeneralNewsFragment extends Fragment {
      * Helper method to show the loading indicator
      * */
     private void showLoadingIndicator() {
-        rotateLoadingIndicator.setVisibility(View.VISIBLE);
         rotateLoadingIndicator.start();
+        rotateLoadingIndicator.setVisibility(View.VISIBLE);
     }
 
     /*
@@ -155,12 +158,10 @@ public class GeneralNewsFragment extends Fragment {
      * */
     private void initReyclerView() {
         if (newsAdapter == null) {
-            showLoadingIndicator();
             newsAdapter = new NewsArticleAdapter(newsArticles, getContext());
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
             newsRecyclerView.setLayoutManager(layoutManager);
             newsRecyclerView.setAdapter(newsAdapter);
-            hideLoadingIndicator();
         } else {
             newsAdapter.notifyDataSetChanged();
         }

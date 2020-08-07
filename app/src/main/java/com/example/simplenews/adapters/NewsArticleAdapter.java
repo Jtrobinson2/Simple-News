@@ -1,6 +1,7 @@
 package com.example.simplenews.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,12 +9,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.simplenews.R;
 import com.example.simplenews.models.Article;
+import com.victor.loading.rotate.RotateLoading;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,6 +28,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import timber.log.Timber;
 
 /*name (news source)
  * title (headline)
@@ -49,10 +58,27 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         Article currentArticle = newsArticles.get(position);
+        holder.rotateLoadingindicator.start();
 
         Glide.with(context)
                 .load(currentArticle.getUrlToImage())
-                .placeholder(R.drawable.ic_launcher_foreground)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        Timber.d("There was no image in this article");
+                        holder.rotateLoadingindicator.stop();
+                        holder.rotateLoadingindicator.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        holder.rotateLoadingindicator.stop();
+                        holder.rotateLoadingindicator.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
+                .error(R.drawable.ic_launcher_foreground)
                 .into(holder.newsImage);
 
         holder.newsHeadline.setText(currentArticle.getTitle());
@@ -71,7 +97,8 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
         TextView publishedTime;
         ImageView newsImage;
         ConstraintLayout parentLayout;
-        
+        RotateLoading rotateLoadingindicator;
+
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -80,6 +107,7 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
             publishedTime = itemView.findViewById(R.id.published_time_textView);
             newsImage = itemView.findViewById(R.id.news_image_view);
             parentLayout = itemView.findViewById(R.id.list_item_parent_layout);
+            rotateLoadingindicator = itemView.findViewById(R.id.rotate_loading_indicator);
 
         }
 
@@ -95,7 +123,6 @@ public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.
         Locale locale = Locale.getDefault();
         /*TODO Fix this it just shows todays date not the actual date string*/
         Date date = new Date();
-
 
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, locale);
