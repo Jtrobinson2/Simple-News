@@ -23,7 +23,7 @@ public interface NewsAPI {
     /*
      * Get topic specific headlines from news API
      * @param: String of one of the 7 available topics
-     * You can find the topics in the news repository they are static string constants
+     * You can find the topics in the NewsRepository.java they are static string constants
      * */
     @GET("top-headlines?country=us&pageSize=100&apiKey=" + API_KEY)
     Call<NewsResponse> getTopicSpecificHeadline(@Query("category") String category);

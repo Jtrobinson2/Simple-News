@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">SimpleNews</string>
+    <string name="app_name">Simple News</string>
+    <string name="tab_layout_general">General</string>
+    <string name="tab_layout_entertainment">Entertainment</string>
+    <string name="tab_layout_business">Business</string>
+    <string name="tab_layout_health">Health</string>
+    <string name="tab_layout_science">Science</string>
+    <string name="tab_layout_sports">Sports</string>
+    <string name="tab_layout_technology">Technology</string>
 </resources>

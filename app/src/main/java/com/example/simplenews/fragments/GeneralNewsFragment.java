@@ -110,6 +110,7 @@ public class GeneralNewsFragment extends Fragment {
             swipeRefreshLayout.setRefreshing(false);
             hideLoadingIndicator();
             newsRecyclerView.setVisibility(View.VISIBLE);
+            newsAdapter.notifyDataSetChanged();
             /*
              * This toast is here because my news api plan won't show realtime news, it only
              * shows new news headlines every hour. The Majority of the use cases won't have
@@ -134,7 +135,7 @@ public class GeneralNewsFragment extends Fragment {
         newsAdapter.addAll(freshArticles);
         hideLoadingIndicator();
         newsRecyclerView.setVisibility(View.VISIBLE);
-        newsAdapter.notifyDataSetChanged();
+
     }
 
     /*

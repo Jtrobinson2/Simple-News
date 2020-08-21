@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="PageTitleTextSize">20sp</dimen>
-    <dimen name="ParagraphTextSize">14sp</dimen>
+    <dimen name="PageTitleTextSize">24sp</dimen>
+    <dimen name="ParagraphTextSize">16sp</dimen>
     <dimen name="ListTitlesTextSize">14sp</dimen>
-    <dimen name="ListItemTitlesTextSize">16sp</dimen>
+    <dimen name="ListItemTitlesTextSize">20sp</dimen>
     <dimen name="ImportantTextSnippetsSize">16sp</dimen>
-    <dimen name="SecondaryTextSize">14sp</dimen>
+    <dimen name="SecondaryTextSize">18sp</dimen>
     <dimen name="CaptionsTextSize">14sp</dimen>
     <dimen name="ButtonsTextSize">14sp</dimen>
     <dimen name="TabsTextSize">14sp</dimen>

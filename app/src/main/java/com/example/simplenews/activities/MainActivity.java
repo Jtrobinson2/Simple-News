@@ -20,18 +20,18 @@ import timber.log.Timber;
 public class MainActivity extends AppCompatActivity {
     /*
      *TODO: Fix date not showing date from API response
-     *  TODO: implement a network error handling (show a screen or something)
+     *  TODO: implement a network error handling (show a no internet graphic, and a toast)
      *     TODO: implement cached news results (ROOM database)
      *      TODO: implement color prefrences and settings screen
      *       TODO: implement proper testing of app
-     *        TODO: loading indicator is now showing fix this
+     *        TODO: when the app is started not connected to the internet, then gains connection and swipe to refresh is executed news articles are not added to viewpager
      *
      * */
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
     RotateLoading rotateLoadingindicator;
     private NewsFragmentStatePagerAdapter viewpagerAdapter;
-    private String[] tabTitles = {"General", "Entertainment", "Business", "Health", "Science", "Sports", "Technology"};
+    private String[] tabTitles;
 
 
     @Override
@@ -45,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
         viewpagerAdapter = new NewsFragmentStatePagerAdapter(this);
         viewPager.setAdapter(viewpagerAdapter);
         viewPager.setOffscreenPageLimit(7);
+
+//        Setting the text of the tabLayout Titles
+        tabTitles = new String[]{getString(R.string.tab_layout_general), getString(R.string.tab_layout_entertainment), getString(R.string.tab_layout_business), getString(R.string.tab_layout_health), getString(R.string.tab_layout_science), getString(R.string.tab_layout_sports), getString(R.string.tab_layout_technology)
+
+        };
+
 
 //Setting the text of the tablayout
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText(tabTitles[position])).attach();
@@ -64,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
         }
     }
-
 
 
 }

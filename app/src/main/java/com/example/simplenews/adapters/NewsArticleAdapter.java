@@ -31,13 +31,7 @@ import java.util.TimeZone;
 
 import timber.log.Timber;
 
-/*name (news source)
- * title (headline)
- * description (content)
- * url to image (imageView)
- * url
- * published time
- * */
+
 public class NewsArticleAdapter extends RecyclerView.Adapter<NewsArticleAdapter.Viewholder> {
     private ArrayList<Article> newsArticles;
     private Context context;
