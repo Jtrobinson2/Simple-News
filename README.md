@@ -45,6 +45,3 @@ as well as [Viewpager2](https://developer.android.com/jetpack/androidx/releases/
 - Add the generated API key in `app/java/repositories/NewsAPI`file  
 - Once in the NewsAPI interface file, replace the static final String variable titled "API_KEY", with your API KEY
 - Build and run the app.
-
-
-Thank you!
