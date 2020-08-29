@@ -13,7 +13,7 @@ import retrofit2.http.Query;
  * */
 
 public interface NewsAPI {
-    /*TODO insert your api key into this variable here to use the app*/
+
     public static final String API_KEY = "";
 
     //  Get general news headlines from news API
