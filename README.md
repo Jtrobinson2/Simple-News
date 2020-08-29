@@ -22,9 +22,11 @@ as well as [Viewpager2](https://developer.android.com/jetpack/androidx/releases/
 ![Architecture](https://www.nexmobility.com/articles/images/mvvm-architecture-pattern.png)
 
 ## Screenshots
-<img src="Screenshot_1598719096.png?raw=true" height="450" alt="N/A"/>  
-<img src="Screenshot_1598719122.png?raw=true" height="450" alt="N/A"/>  
-<img src ="Screenshot_1598719302.png?raw=true" height="450" alt="N/A"/>
+<p align="middle">
+  <img src="Screenshot_1598719096.png?raw=true" width="250" />
+  <img src="Screenshot_1598719122.png?raw=true"   width="250"/> 
+  <img src ="Screenshot_1598719302.png?raw=true"  width="250" />
+</p>
 
 
 ## Steps to run the App
