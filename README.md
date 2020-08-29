@@ -28,6 +28,14 @@ as well as [Viewpager2](https://developer.android.com/jetpack/androidx/releases/
   <img src ="Screenshot_1598719302.png?raw=true"  width="250" />
 </p>
 
+## Gifs
+<p align="middle">
+  <img src="ScreenRecordingOpening.gif?raw=true" width="250" />
+  <img src="ScreenRecordingScroll.gif?raw=true"   width="250"/> 
+   <img src ="ScreenRecordingWebOpening.gif?raw=true"  width="250" />
+  <img src ="ScreenRecordingRefresh.gif?raw=true"  width="250" />
+</p>
+
 
 ## Steps to run the App
 - Clone or import the project into Android Studio
