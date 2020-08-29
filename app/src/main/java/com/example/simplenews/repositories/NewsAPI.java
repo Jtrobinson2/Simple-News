@@ -14,7 +14,7 @@ import retrofit2.http.Query;
 
 public interface NewsAPI {
     /*TODO insert your api key into this variable here to use the app*/
-    public static final String API_KEY = "a130b9d595a2430f9a0e31d7641bdef2";
+    public static final String API_KEY = "";
 
     //  Get general news headlines from news API
     @GET("top-headlines?country=us&pageSize=100&apiKey=" + API_KEY)

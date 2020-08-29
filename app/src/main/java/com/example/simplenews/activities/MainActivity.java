@@ -18,7 +18,15 @@ import com.victor.loading.rotate.RotateLoading;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
-
+    /*
+     *TODO: Fix date not showing date from API response
+     *  TODO: implement a network error handling (show a no internet graphic, and a toast)
+     *     TODO: implement cached news results (ROOM database)
+     *      TODO: implement color prefrences and settings screen
+     *       TODO: implement proper testing of app
+     *        TODO: when the app is started not connected to the internet, then gains connection and swipe to refresh is executed news articles are not added to viewpager
+     *
+     * */
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
     RotateLoading rotateLoadingindicator;
