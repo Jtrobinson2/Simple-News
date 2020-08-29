@@ -22,7 +22,10 @@ as well as [Viewpager2](https://developer.android.com/jetpack/androidx/releases/
 ![Architecture](https://www.nexmobility.com/articles/images/mvvm-architecture-pattern.png)
 
 ## Screenshots
-<img alt="NewsApp" height="450px" src="https://github.com/Naveentp/Clean-MVVM-NewsApp/blob/master/ART/Screenshot-1.png" />
+<img src="Screenshot_1598719096.png?raw=true" height="450" alt="N/A"/>  
+<img src="Screenshot_1598719122.png?raw=true" height="450" alt="N/A"/>  
+<img src ="Screenshot_1598719302.png?raw=true" height="450" alt="N/A"/>
+
 
 ## Steps to run the App
 - Clone or import the project into Android Studio
